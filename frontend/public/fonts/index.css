@@ -1,0 +1,59 @@
+@font-face {
+  font-family: 'CircularStd';
+  font-weight: 400;
+  font-style: normal;
+  src: local('CircularStd'), url('CircularStd-Book.otf') format('opentype');
+}
+@font-face {
+  font-family: 'CircularStd';
+  font-weight: 500;
+  font-style: normal;
+  src: local('CircularStd'), url('CircularStd-Medium.otf') format('opentype');
+}
+@font-face {
+  font-family: 'CircularStd';
+  font-weight: 700;
+  font-style: normal;
+  src: local('CircularStd'), url('CircularStd-Bold.otf') format('opentype');
+}
+@font-face {
+  font-family: "PublicSans-Bold";   /*Can be any text*/
+  font-style: normal;
+  font-weight: 700;
+
+
+  src: local("Bold"),
+    url("../fonts/PublicSans-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "PublicSans-SemiBold";   /*Can be any text*/
+  src: local("semi-Bold");
+  font-style: normal;
+  font-weight: 600,
+    url("../fonts/PublicSans-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "PublicSans-Medium";   /*Can be any text*/
+  src: local("Medium");
+  font-weight: 500;
+
+  font-style: normal,
+
+    url("../fonts/PublicSans-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "PublicSans-Regular";   /*Can be any text*/
+  src: local("Regular");
+  font-style: normal;
+  font-weight: 400,
+
+
+    url("../fonts/PublicSans-Regular.ttf") format("truetype");
+}
+*{
+  padding: 0;
+  margin:0;
+  box-sizing:border-box;
+  font-family:PublicSans
+
+}
