@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, trim: true },
   password: { type: String, required: true, trim: true },
   tc: { type: Boolean, required: true, trim: true },
-  picture: { type: String, required: true, trim: true },
   dashboard : { type: mongoose.Schema.Types.ObjectId, ref: 'dashboard' },
 
 })

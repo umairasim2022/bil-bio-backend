@@ -4,6 +4,9 @@
   "version": "3.5.0",
   "description": "Javascript Version",
   "private": true,
+  "engines": {
+    "node": "18.9.0"
+  },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",

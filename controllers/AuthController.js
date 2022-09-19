@@ -36,7 +36,7 @@ class AuthController {
   };
   
   static userRegistration = async (req, res) => {
-    const { name, email, password, password_confirmation, tc ,picture} = req.body
+    const { name, email, password, password_confirmation, tc} = req.body
     const user = await UserModel.findOne({ email: email })
     if (user) {
       res.send({ "status": "failed", "message": "Email already exists" })
@@ -51,8 +51,7 @@ class AuthController {
               name: name,
               email: email,
               password: hashPassword,
-              tc: tc,
-              picture: picture
+              tc: tc
             })
             await doc.save()
             const saved_user = await UserModel.findOne({ email: email })
