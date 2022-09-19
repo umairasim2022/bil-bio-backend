@@ -135,7 +135,7 @@ class AuthController {
     res.send({ "status": "sucess", "message": "User is login" })
   }
   static home = async (req, res) => {
-    res.send({ "status": "sucess", "message": "User redirect to main route." })
+    res.send({ "status": " sucess", "message": "User redirect to main route." })
   }
   static sendUserPasswordResetEmail = async (req, res) => {
     const { email } = req.body
