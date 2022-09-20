@@ -29,7 +29,10 @@ router.post('/reset-password/:id/:token', AuthController.userPasswordReset)
 router.post('/changepassword', AuthController.changeUserPassword)
 router.get('/loggeduser',AuthController.authCheck, AuthController.loggedUser)
 router.get('/dashboard',AuthController.authCheck, AuthController.dashboard)
+router.get('/customize_dashboard_value/:userid' ,AuthController.getCustomizeDashboard)
+router.get('/customize_dashboard_value/:userid' ,AuthController.getDashboardValueByColoumName)
 router.post('/customize_dashboard/:userid', AuthController.customizeDashboard)
+router.put('/update_customize_dashboard/:optionid', AuthController.updateCustomizeDashboard)
 router.get('/logout', AuthController.logout);
 router.get('/', AuthController.home);
 export default router

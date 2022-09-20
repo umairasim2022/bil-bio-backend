@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 
 // form
 import { useForm } from 'react-hook-form';
@@ -23,7 +23,6 @@ export default function RegisterForm() {
   const { register } = useAuth();
   const navigate = useNavigate();
   const isMountedRef = useIsMountedRef();
-
   const [showPassword, setShowPassword] = useState(false);
   const handleImageUpload = e => {
     const [file] = e.target.files;
@@ -94,7 +93,7 @@ export default function RegisterForm() {
             password,
             tc
         });
-        navigate('/dashboard');
+       
         } catch (error) {
           if (error.response) {
             setMsg(error.response.data.msg);

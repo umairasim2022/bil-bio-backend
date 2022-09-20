@@ -148,6 +148,6 @@
   "overrides": {
     "@svgr/webpack": "^6.2.1"
   },
-  "proxy": "https://git.heroku.com/bill-bio.git",
+  "proxy": "http://localhost:5000",
   "homepage": "."
 }
