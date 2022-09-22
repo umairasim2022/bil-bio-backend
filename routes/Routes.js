@@ -24,6 +24,7 @@ router.post('/mediaUpload',upload.single('picture') ,AuthController.mediaUpload)
 router.post('/login', AuthController.userLogin)
 router.post('/send-reset-password-email', AuthController.sendUserPasswordResetEmail)
 router.post('/reset-password/:id/:token', AuthController.userPasswordReset)
+router.get('/verify-email/:id/:token', AuthController.verifyEmail)
 
 // Protected Routes
 router.post('/changepassword', AuthController.changeUserPassword)

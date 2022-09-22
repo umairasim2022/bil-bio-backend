@@ -88,7 +88,7 @@ class AuthController {
   };
   
   static userRegistration = async (req, res) => {
-    const { name, email, password, password_confirmation, tc} = req.body
+    const { name, email, password, password_confirmation, tc, status} = req.body
     
     const user = await UserModel.findOne({ email: email })
     if (user) {
@@ -104,13 +104,23 @@ class AuthController {
               name: name,
               email: email,
               password: hashPassword,
-              tc: tc
+              tc: tc,
+              status:'0'
             })
             await doc.save()
             const saved_user = await UserModel.findOne({ email: email })
-            // Generate JWT Token
             const token = jwt.sign({ userID: saved_user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
-            res.status(201).send({ "status": "success", "message": "Registration Success", "token": token })
+            const link = `http://127.0.0.1:3000/api/user/verify_email/${saved_user._id}/${token}`
+            let info = await transporter.sendMail({
+              from: 'Bill-Bio@gmail.com',
+              to: email,
+              subject: "BillBio - Please Verify Email",
+              html: `<a href=${link}>Click Here</a> to Verify.`
+            })
+           
+            // Generate JWT Token
+           
+            res.status(201).send({ "status": "success", "message": "Registration Success", "token": token,"id":saved_user._id })
           } catch (error) {
             console.log(error)
             res.send({ "status": "failed", "message": "Unable to Register" })
@@ -196,16 +206,18 @@ class AuthController {
       if (user) {
         const secret = user._id + process.env.JWT_SECRET_KEY
         const token = jwt.sign({ userID: user._id }, secret, { expiresIn: '15m' })
+        const links = `http://127.0.0.1:3000/api/user/reset/${user._id}/${token}`
         const link = `http://127.0.0.1:3000/api/user/reset/${user._id}/${token}`
         console.log(link)
-        // // Send Email
-        // let info = await transporter.sendMail({
-        //   from: process.env.EMAIL_FROM,
-        //   to: user.email,
-        //   subject: "GeekShop - Password Reset Link",
-        //   html: `<a href=${link}>Click Here</a> to Reset Your Password`
-        // })
-        res.send({ "status": "success", "message": "Password Reset Email Sent... Please Check Your Email" })
+        // Send Email
+        let info = await transporter.sendMail({
+          from: 'Bill-Bio@gmail.com',
+          to: user.email,
+          subject: "BillBio - Password Reset Link",
+          html: `<a href=${link}>Click Here</a> to Reset Your Password`
+        })
+        console.log('info')
+        res.send({ "status": "success", "message": "Password Reset Emails Sent... Please Check Your Email" })
       } else {
         res.send({ "status": "failed", "message": "Email doesn't exists" })
       }
@@ -221,6 +233,25 @@ class AuthController {
       });
     }else{
       res.send({ "status": "sucess", "message": "logout successfully." })
+    }
+  }
+  
+  static verifyEmail = async (req, res) => {
+    const { id, token } = req.params
+    const user = await UserModel.findById(id)
+    const new_secret = user._id + process.env.JWT_SECRET_KEY
+    if(user)
+    {
+      try {
+        const checking=jwt.verify(token, process.env.JWT_SECRET_KEY)
+        res.send({ "status": "success", "message": "valid Token" })
+      
+      } catch (error) {
+        res.send({ "status": "failed", "message": "Invalid Token" })
+      }
+    }
+    else{
+      res.send({ "status": "failed", "message": "Verification Failed." })
     }
   }
   static userPasswordReset = async (req, res) => {
