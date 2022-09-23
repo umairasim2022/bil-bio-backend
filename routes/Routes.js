@@ -27,6 +27,7 @@ router.post('/reset-password/:id/:token', AuthController.userPasswordReset)
 router.get('/verify-email/:id/:token', AuthController.verifyEmail)
 router.get('/get-email/:id/:token', AuthController.getEmail)
 // Protected Routesd
+
 router.post('/changepassword', AuthController.changeUserPassword)
 router.get('/loggeduser',AuthController.authCheck, AuthController.loggedUser)
 router.get('/dashboard',AuthController.authCheck, AuthController.dashboard)
