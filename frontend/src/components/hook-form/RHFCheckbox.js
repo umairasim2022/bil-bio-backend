@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 // form
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
-
-// ----------------------------------------------------------------------
 
 RHFCheckbox.propTypes = {
   name: PropTypes.string.isRequired,
@@ -12,7 +11,6 @@ RHFCheckbox.propTypes = {
 
 export function RHFCheckbox({ name, ...other }) {
   const { control } = useFormContext();
-
   return (
     <FormControlLabel
       control={

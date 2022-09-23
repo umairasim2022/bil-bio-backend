@@ -6,7 +6,7 @@ import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Link, Grid, List, Stack, Popover, ListItem, ListSubheader, CardActionArea , Button } from '@mui/material';
+import { Box, Link, Grid, List, Stack, Popover, Listitem, ListSubheader, CardActionArea, Button } from '@mui/material';
 // components
 import Iconify from '../../components/Iconify';
 
@@ -26,11 +26,11 @@ const LinkStyle = styled(Link)(({ theme }) => ({
 }));
 
 const SubLinkStyle = styled((props) => (
-  <ListItem sx={{ p: 0 }}>
+  <Listitem sx={{ p: 0 }}>
     <Link target="_blank" rel="noopener" {...props}>
       {props.children}
     </Link>
-  </ListItem>
+  </Listitem>
 ))(({ theme }) => ({
   ...theme.typography.body2,
   display: 'flex',

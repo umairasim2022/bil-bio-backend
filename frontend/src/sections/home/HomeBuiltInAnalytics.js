@@ -1,13 +1,13 @@
 // bioLink page
 import { m } from 'framer-motion';
-import { MdGroups } from 'react-icons/md';
+// import { MdGroups } from 'react-icons/md';
 import { FaUsers, FaCheckCircle } from 'react-icons/fa';
 
 // @mui
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import { Box, Grid, Button, Container, Typography, Stack } from '@mui/material';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+// import Listitem from '@mui/material/Listitem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 // import StarIcon from '@mui/icons-material/Star';
@@ -15,7 +15,6 @@ import ListItemText from '@mui/material/ListItemText';
 import Image from '../../components/Image';
 import { MotionViewport, varFade } from '../../components/animate';
 
-// react
 
 // ----------------------------------------------------------------------
 

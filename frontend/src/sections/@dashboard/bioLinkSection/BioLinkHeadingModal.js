@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 
 // ______mui______
 
@@ -71,14 +72,29 @@ export default function BioLinkHeadingModal({ bioLinkHeadingModalState, closeBlo
     }));
   };
 
-  // handling heading Select
-  const handleText = (event) => {
-    setState((prevState) => ({
-      ...prevState,
-      text: event.target.value,
-    }));
-  };
+
   const theme = useTheme();
+
+  // ___________________________after submit____________________
+  const handleHeadingTextSubmit = async (e) => {
+    e.preventDefault()
+    console.log('handleText', state.heading)
+    console.log('handleTextt', state.text)
+    const fontData = {
+      column_type: state?.heading,
+      column_value: state?.text,
+    }
+    try {
+      const headingres = axios.post('/customize_dashboard/:8', fontData)
+    } catch (error) {
+      console.log(error)
+    }
+
+
+
+
+  }
+
   return (
     <div>
       <Modal
@@ -107,7 +123,7 @@ export default function BioLinkHeadingModal({ bioLinkHeadingModalState, closeBlo
             <CloseIcon onClick={() => closeBlockSubModal('bioLinkHeadingModalState')} sx={{ cursor: 'pointer' }} />
           </TiktokSubHeader>
 
-          <Box component="form">
+          <Box component="form" onSubmit={handleHeadingTextSubmit}>
             <Box sx={{ display: 'flex', alignItems: 'center', mt: 5, mb: 1 }}>
               <HMobiledataIcon fontSize="large" fontWeight="bold" sx={{ color: 'primary.main' }} />
               <Typography variant="body2">Type </Typography>
@@ -143,8 +159,8 @@ export default function BioLinkHeadingModal({ bioLinkHeadingModalState, closeBlo
               onChange={handleChange}
               name='text'
             />
-            <Button variant="contained" sx={{ display: 'block', width: '100%', mt: 3 }}>
-              Submit
+            <Button variant="contained" sx={{ display: 'block', width: '100%', mt: 3 }} type='submit'>
+              Submit heading
             </Button>
           </Box>
         </TikTokModalMain>

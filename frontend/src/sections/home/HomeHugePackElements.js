@@ -7,7 +7,7 @@ import { FaUsers, FaCheckCircle } from 'react-icons/fa';
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import { Box, Grid, Button, Container, Typography, Stack } from '@mui/material';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import ListItem from '@mui/material/ListItem'; 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 // import StarIcon from '@mui/icons-material/Star';
@@ -20,7 +20,7 @@ import { MotionViewport, varFade } from '../../components/animate';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
-  padding: theme.spacing(10, 0 , 5 , 0),
+  padding: theme.spacing(10, 0, 5, 0),
 }));
 
 // const ContentStyle = styled('div')(({ theme }) => ({
@@ -43,12 +43,12 @@ const ScreenStyle = styled(Box)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {
     paddingRight: 4,
     borderRadius: 12,
-    marginTop:5,
-  marginBottom: theme.spacing(10),
+    marginTop: 5,
+    marginBottom: theme.spacing(10),
 
   },
   [theme.breakpoints.down('md')]: {
-  marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
   '& img': {
     borderRadius: 8,
@@ -109,7 +109,7 @@ export default function HomeHugePackElements() {
               </Grid>
               <Grid item xs={12} md={5} paddingTop="45px" sx={{ paddingLeft: { xs: 1, md: 4 } }}>
                 {/* <Typography>icons</Typography> */}
-                <Stack direction="column"  sx={{xs:{gap:"7px" , md:"14px"}}}>
+                <Stack direction="column" sx={{ xs: { gap: "7px", md: "14px" } }}>
                   <Box
                     sx={{
                       width: '55px',
@@ -122,9 +122,9 @@ export default function HomeHugePackElements() {
                       alignItems: 'center',
                     }}
                   >
-                    <FaUsers  fontSize= "2rem"  style={{color:"#38B2AC"}}/>
+                    <FaUsers fontSize="2rem" style={{ color: "#38B2AC" }} />
                   </Box>
-                  <Typography variant="h3"  sx={{ marginY: { md: '15px', color: 'primary.main'  } }}>
+                  <Typography variant="h3" sx={{ marginY: { md: '15px', color: 'primary.main' } }}>
                     Bio link pages
                   </Typography>
                   <Typography variant="body1">

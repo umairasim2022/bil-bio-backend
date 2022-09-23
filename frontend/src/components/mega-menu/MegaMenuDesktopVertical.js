@@ -4,7 +4,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 // @mui
 import Masonry from '@mui/lab/Masonry';
 import { alpha } from '@mui/material/styles';
-import { Link, List, Paper, ListItem, Typography, Divider, Stack } from '@mui/material';
+import { Link, List, Paper, Listitem, Typography, Divider, Stack } from '@mui/material';
 // config
 import { NAVBAR } from '../../config';
 // components
@@ -153,7 +153,7 @@ function ParentItem({ path, title, open, hasSub, ...other }) {
   };
 
   return (
-    <ListItem
+    <Listitem
       to={path}
       component={RouterLink}
       sx={{
@@ -174,6 +174,6 @@ function ParentItem({ path, title, open, hasSub, ...other }) {
       {title}
 
       {hasSub && <Iconify icon={'eva:chevron-right-fill'} sx={{ ml: 1, width: 20, height: 20 }} />}
-    </ListItem>
+    </Listitem>
   );
 }

@@ -12,7 +12,6 @@ function objFromArray(array, key = 'id') {
     return accumulator;
   }, {});
 }
-
 const initialState = {
   isLoading: false,
   error: null,

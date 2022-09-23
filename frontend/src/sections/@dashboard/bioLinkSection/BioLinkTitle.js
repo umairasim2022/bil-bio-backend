@@ -33,7 +33,7 @@ import Iconify from '../../../components/Iconify';
 
 const RootStyle = styled('div')(({ theme }) => ({
   // spacing from top bottom left right to the title container
-  padding: theme.spacing(5, 30),
+  padding: theme.spacing(5, 10),
   width: '100%',
   //   background: theme.palette.background.paper,
   [theme.breakpoints.down('md')]: {
