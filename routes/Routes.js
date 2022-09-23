@@ -25,8 +25,10 @@ router.post('/login', AuthController.userLogin)
 router.post('/send-reset-password-email', AuthController.sendUserPasswordResetEmail)
 router.post('/reset-password/:id/:token', AuthController.userPasswordReset)
 router.get('/verify-email/:id/:token', AuthController.verifyEmail)
+router.get('/get-email/:id/:token', AuthController.getEmail)
+// Protected Routesd
 
-// Protected Routes
+
 router.post('/changepassword', AuthController.changeUserPassword)
 router.get('/loggeduser',AuthController.authCheck, AuthController.loggedUser)
 router.get('/dashboard',AuthController.authCheck, AuthController.dashboard)

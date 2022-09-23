@@ -254,6 +254,25 @@ class AuthController {
       res.send({ "status": "failed", "message": "Verification Failed." })
     }
   }
+  static getEmail = async (req, res) => {
+    const { id, token } = req.params
+    const user = await UserModel.findById(id)
+    console.log(user.email)
+    const new_secret = user._id + process.env.JWT_SECRET_KEY
+    if(user)
+    {
+      try {
+        const checking=jwt.verify(token, process.env.JWT_SECRET_KEY)
+        res.send({ "status": "success", "message": "valid Token","email":user.email })
+      
+      } catch (error) {
+        res.send({ "status": "failed", "message": "Invalid Token" })
+      }
+    }
+    else{
+      res.send({ "status": "failed", "message": "Verification Failed." })
+    }
+  }
   static userPasswordReset = async (req, res) => {
     const { password, password_confirmation } = req.body
     const { id, token } = req.params
