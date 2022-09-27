@@ -8,13 +8,54 @@ import transporter from '../config/emailConfig.js'
 
 
 class DashboardController {
+  static getLinkWithTag = async (req, res, next) => {
+       
+    const { id,tag  } = req.body
+    //console.log(tag)
+    if (req.params.id && id) {
+      const link = await LinkModel.find({
+        $and: [
+          { _id: id },
+          { tag: tag },
+          { user: req.params.id },
+        ]
+      }
 
+      );
+      res.status(200).send({ "status": "success", "message": "Customize Tag Link.", "response": link })
+    }
+    else {
+      res.send({ "status": "failed", "message": "All fields are required" })
+    }
+}
+      static getLink = async (req, res, next) => {
+       
+        const { id  } = req.body
+        console.log(id)
+        if (req.params.id && id) {
+          const link = await LinkModel.find({
+            $and: [
+              { _id: id },
+              { tag: 'main' },
+              { user: req.params.id },
+            ]
+          }
+
+          );
+          res.status(200).send({ "status": "success", "message": "Customize Main Link.", "response": link })
+        }
+        else {
+          res.send({ "status": "failed", "message": "All fields are required" })
+        }
+    }
     static createLink = async (req, res, next) => {
         const { tag, link } = req.body
+        const user = await UserModel.findOne({ _id: req.params.id })
         if (tag && link ) {
             const doc = new LinkModel({
                 tag: tag,
                 link: link,
+                user: user._id
               })
               await doc.save()
               res.status(200).send({ "status": "success", "message": "Link Created Successfully." })
