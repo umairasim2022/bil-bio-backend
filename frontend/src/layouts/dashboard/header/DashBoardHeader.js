@@ -1,8 +1,10 @@
-import * as React from 'react';
+import { useEffect , useState } from 'react';
+import { toast } from 'react-toastify'
+
 // router
 import { Link as RouterLink, useNavigate, Outlet } from 'react-router-dom';
-
-
+// redux 
+import { useSelector, useDispatch } from 'react-redux'
 // mui
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -39,20 +41,23 @@ import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import BuildIcon from '@mui/icons-material/Build';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import StorageIcon from '@mui/icons-material/Storage';
+
 // component
+import { logoutUser, resetUser } from '../../../redux/slices/auth/authSlice'
+import LoadingScreen from '../../../components/LoadingScreen';
 import Logo from '../../../components/Logo';
 import useAuth from '../../../hooks/useAuth';
-
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const DashBoardHeader = () => {
+  const dispatch = useDispatch()
   const auth = useAuth()
   const navigate = useNavigate();
   console.log('myauth', auth)
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -69,21 +74,54 @@ const DashBoardHeader = () => {
     setAnchorElUser(null);
   };
 
-  const handleLogout = async (e) => {
-    try {
+//  state getting from logout api 
+  const { isError, isSuccess, isLoading, user } = useSelector(state => state?.user)
 
-      await axios.get('/api/user/logout');
-      console.log('123');
-     
-      navigate('/');
-    } catch (error) {
-      if (error.response) {
-        console.log('errors');
+
+  const handleLogout =  (e) => {
+     dispatch(logoutUser())
+    window.location.reload()
+
+  }  // status from api  
+  const { status, message } = useSelector(state => state?.user?.user)
+  // handle error and success message and rendering of the page after logout 
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+      navigate('/dashboard')
     }
+
+    if (isSuccess) {
+      if (status === 'sucess') {
+        toast.success(message, {
+          toastId: 'success12',
+        })   // message is api response  with when api response status is success
+        navigate('/auth/login')
+      }
     }
-    // auth.logout()
+    if (isSuccess) {
+      if (status === 'failed') {
+        toast.error(message, {
+          toastId: 'error12',
+
+        })
+
+         // message is api response  with either api response status is failed
+
+        navigate('/dashboard')
+
+
+      }
+    }
+    console.log('myvalues#', isError, isSuccess)
+    dispatch(resetUser())
+    console.log('myvalues#', isError, isSuccess)
+  }, [isError, isSuccess, status , navigate])
+
+
+  if (isLoading) {
+    return <LoadingScreen />
   }
-
   return (
     <>
       <AppBar position="static">
@@ -123,8 +161,9 @@ const DashBoardHeader = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuList>
-                  <MenuItem>
+                {/* <MenuList> */}
+
+                  {/* <MenuItem>
                     <ListItemIcon>
                       <FingerprintIcon fontSize="small" />
                     </ListItemIcon>
@@ -216,21 +255,22 @@ const DashBoardHeader = () => {
                     <AttachMoneyIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText>Payments</ListItemText>
-                </MenuItem>
+                </MenuItem> */}
+                
                 <MenuItem>
                   <ListItemIcon>
                     <CodeIcon />
                   </ListItemIcon>
-                  <ListItemText>API</ListItemText>
+                  <ListItemText>Profile</ListItemText>
                 </MenuItem>
 
-                <Divider />
+                <Divider /> 
 
                 <MenuItem>
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText onClick={handleLogout}>Logout</ListItemText>
+                  <ListItemText onClick={()=>handleLogout()}>Logout</ListItemText>
                 </MenuItem>
               </Menu>
             </Box>

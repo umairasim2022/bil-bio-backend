@@ -1,9 +1,9 @@
 // Making Responsive Navbar
 
 // router
-import { useLocation, Link as RouterLink , Outlet } from 'react-router-dom';
+import { useLocation, Link as RouterLink, Outlet } from 'react-router-dom';
 
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -29,6 +29,7 @@ import { PATH_AUTH, PATH_PAGE } from '../../routes/paths';
 import Logo from '../../components/Logo';
 
 const drawerWidth = 240;
+const user = localStorage.getItem('user')
 
 function DrawerAppBar(props) {
   const { window } = props;
@@ -56,7 +57,7 @@ function DrawerAppBar(props) {
             Contact
           </Button>
         </ListItem>
-        <ListItem disablePadding sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        {!user ? (<ListItem disablePadding sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Button
             variant="contained"
             size="small"
@@ -71,10 +72,25 @@ function DrawerAppBar(props) {
             <FaSignInAlt />
             &nbsp; Sign in
           </Button>
-        </ListItem>
-        <listItem sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        </ListItem>) :
           <Button
-          target='_self'
+            variant="contained"
+            size="small"
+            disableElevation
+            component={RouterLink}
+            to='/dashboard'
+            sx={{
+              my: 3,
+              boxShadow: 'none',
+            }}
+          >
+            <FaSignInAlt />
+            &nbsp; Dashboard
+          </Button>
+        }
+        {!user && (<listItem sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Button
+            target='_self'
             variant="contained"
             disableElevation
             component={RouterLink}
@@ -88,7 +104,7 @@ function DrawerAppBar(props) {
             <BsPlusLg />
             Sign up
           </Button>
-        </listItem>
+        </listItem>)}
       </List>
     </Box>
   );
@@ -120,22 +136,37 @@ function DrawerAppBar(props) {
                 Contact
               </Button>
 
-              <Button
+              {!user ? (<Button
                 variant="contained"
                 size="small"
                 rel="noopener"
                 disableElevation
                 component={RouterLink}
                 to={PATH_AUTH.login}
-                // href="https://material-ui.com/store/items/minimal-dashboard/"
                 sx={{
                   boxShadow: 'none',
                 }}
               >
                 <FaSignInAlt />
                 &nbsp; Sign in
-              </Button>
-              <Button
+              </Button>) :
+                (<Button
+                  variant="contained"
+                  size="small"
+                  rel="noopener"
+                  disableElevation
+                  component={RouterLink}
+                  to='/dashboard'
+                  // href="https://material-ui.com/store/items/minimal-dashboard/"
+                  sx={{
+                    boxShadow: 'none',
+                  }}
+                >
+                  <FaSignInAlt />
+                  &nbsp; Dashboard
+                </Button>)
+              }
+              {!user && (<Button
                 size="small"
                 variant="contained"
                 rel="noopener"
@@ -149,7 +180,7 @@ function DrawerAppBar(props) {
               >
                 <BsPlusLg />
                 Sign up
-              </Button>
+              </Button>)}
             </Stack>
           </Container>
         </Toolbar>
@@ -171,7 +202,7 @@ function DrawerAppBar(props) {
           {drawer}
         </Drawer>
       </Box>
-      <Outlet/>
+      <Outlet />
     </Box>
   );
 }

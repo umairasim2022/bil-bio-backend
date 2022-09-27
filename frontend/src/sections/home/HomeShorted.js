@@ -20,7 +20,7 @@ import { MotionViewport, varFade } from '../../components/animate';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
-  padding: theme.spacing(10, 0 , 5 , 0),
+  padding: theme.spacing(10, 0, 5, 0),
 }));
 
 // const ContentStyle = styled('div')(({ theme }) => ({
@@ -43,12 +43,12 @@ const ScreenStyle = styled(Box)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {
     paddingRight: 4,
     borderRadius: 12,
-    marginTop:5,
-  marginBottom: theme.spacing(10),
+    marginTop: 5,
+    marginBottom: theme.spacing(10),
 
   },
   [theme.breakpoints.down('md')]: {
-  marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
   '& img': {
     borderRadius: 8,
@@ -104,12 +104,12 @@ export default function HomeShorted() {
         <Container>
           <ScreenStyle>
             <Grid container>
-              <Grid item xs={12} md={7} display="flex" justifyContent="center" alignItems="center"  sx={{order:{sx:1 , md:2 }}}>
+              <Grid item xs={12} md={7} display="flex" justifyContent="center" alignItems="center" sx={{ order: { sx: 1, md: 2 } }}>
                 <img src="./assets/bio-link.png" alt="shorted" />
               </Grid>
               <Grid item xs={12} md={5} paddingTop="45px" sx={{ paddingLeft: { xs: 1, md: 4 } }}>
                 {/* <Typography>icons</Typography> */}
-                <Stack direction="column"  sx={{xs:{gap:"7px" , md:"14px"}}}>
+                <Stack direction="column" sx={{ xs: { gap: "7px", md: "14px" } }}>
                   <Box
                     sx={{
                       width: '55px',
@@ -122,12 +122,12 @@ export default function HomeShorted() {
                       alignItems: 'center',
                     }}
                   >
-                    <FaUsers  fontSize= "2rem"  style={{color:"#38B2AC"}}/>
+                    <FaUsers fontSize="2rem" style={{ color: "#38B2AC" }} />
                   </Box>
-                  <Typography variant="h3"  sx={{ marginY: { md: '15px', color: 'primary.main'  } }}>
-                  Shortened links                  </Typography>
+                  <Typography variant="h3" sx={{ marginY: { md: '15px', color: 'primary.main' } }}>
+                    Shortened links                  </Typography>
                   <Typography variant="body1">
-                  Yes! You can use our service as a shortener as well.                  </Typography>
+                    Yes! You can use our service as a shortener as well.                  </Typography>
                   <Box>
                     <List>
                       <ListItem sx={{ padding: 0 }}>

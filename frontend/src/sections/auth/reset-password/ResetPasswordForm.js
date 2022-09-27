@@ -1,4 +1,7 @@
 import * as Yup from 'yup';
+// Hooks 
+import {useDispatch} from 'react-redux'
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 // form
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,9 +14,13 @@ import { PATH_AUTH } from '../../../routes/paths';
 // components
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
 
+// redux 
+import { resetUserPassword , resetUser} from '../../../redux/slices/auth/authSlice';
+
 // ----------------------------------------------------------------------
 
 export default function ResetPasswordForm() {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
 
   const ResetPasswordSchema = Yup.object().shape({
@@ -22,7 +29,7 @@ export default function ResetPasswordForm() {
 
   const methods = useForm({
     resolver: yupResolver(ResetPasswordSchema),
-    defaultValues: { email: 'demo@minimals.cc' },
+    defaultValues: { email: '' },
   });
 
   const {
@@ -31,15 +38,14 @@ export default function ResetPasswordForm() {
   } = methods;
 
   const onSubmit = async (data) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      sessionStorage.setItem('email-recovery', data.email);
-
-      navigate(PATH_AUTH.newPassword);
-    } catch (error) {
-      console.error(error);
+    console.log('emaildata', data)
+    const emailData = {
+      email: data.email
     }
+        dispatch(resetUserPassword(emailData))
+    dispatch(resetUser(emailData))
+
+
   };
 
   return (

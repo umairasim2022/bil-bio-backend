@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
+
 // form
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
@@ -12,6 +14,8 @@ RHFTextField.propTypes = {
 
 export default function RHFTextField({ name, ...other }) {
   const { control } = useFormContext();
+  const nameRef = useRef();
+  console.log('nameref', nameRef)
 
   return (
     <Controller
@@ -19,6 +23,7 @@ export default function RHFTextField({ name, ...other }) {
       control={control}
       render={({ field, fieldState: { error } }) => (
         <TextField
+          ref={nameRef}
           {...field}
           fullWidth
           value={typeof field.value === 'number' && field.value === 0 ? '' : field.value}

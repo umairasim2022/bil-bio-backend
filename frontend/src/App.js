@@ -1,4 +1,7 @@
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 // routes
+
 import Router from './routes';
 // theme
 import ThemeProvider from './theme';
@@ -10,21 +13,26 @@ import { ProgressBarStyle } from './components/ProgressBar';
 import NotistackProvider from './components/NotistackProvider';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
 
+
 // ----------------------------------------------------------------------
 
 export default function App() {
   return (
-    <MotionLazyContainer>
-      <ThemeProvider>
-        <ThemeSettings>
-          <NotistackProvider>
-            <ProgressBarStyle />
-            <ChartStyle />
-            <ScrollToTop />
-            <Router />
-          </NotistackProvider>
-        </ThemeSettings>
-      </ThemeProvider>
-    </MotionLazyContainer>
+    <>
+      <MotionLazyContainer>
+        <ThemeProvider>
+          <ThemeSettings>
+            <NotistackProvider>
+              <ProgressBarStyle />
+              <ChartStyle />
+              <ScrollToTop />
+              <Router />
+            </NotistackProvider>
+          </ThemeSettings>
+        </ThemeProvider>
+      </MotionLazyContainer>
+      <ToastContainer />
+
+    </>
   );
 }

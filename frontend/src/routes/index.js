@@ -29,7 +29,7 @@ const Loadable = (Component) => (props) => {
     </Suspense>
   );
 };
-
+// ______________________________Routes_________________________________
 export default function Router() {
   return useRoutes([
     {
@@ -38,17 +38,17 @@ export default function Router() {
         {
           path: 'login',
           element: (
-            
+            // <GuestGuard>
               <Login />
-           
+            // </GuestGuard>
           ),
         },
         {
           path: 'register',
           element: (
-           
+            // <GuestGuard>
               <Register />
-           
+            // </GuestGuard>
           ),
         },
         { path: 'login-unprotected', element: <Login /> },
@@ -63,15 +63,21 @@ export default function Router() {
     {
       path: 'dashboard',
       element: (
-       
+        <AuthGuard>
           <DashboardHeader />
-        
+         </AuthGuard> 
       ),
       children: [
         //  { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
-        {  element: <GeneralApp />  ,  index:true},
-         
+        { element: <GeneralApp replace />, index: true },
+
         { path: 'links', element: <BioLinkPage /> },
+        // { path: 'shortlinks', element: <ShortedLink /> },
+        { path: 'filelinks', element: <FileLink /> },
+        // { path: 'vcardlinks', element: <VCardLink /> },
+
+
+
         // { path: 'analytics', element: <GeneralAnalytics /> },
         // { path: 'banking', element: <GeneralBanking /> },
         // { path: 'booking', element: <GeneralBooking /> },
@@ -166,13 +172,14 @@ export default function Router() {
       children: [
         { element: <HomePage />, index: true },
         { path: 'about-us', element: <About /> },
-        { path: 'contact-us', element: <Contact />},
+        { path: 'contact-us', element: <Contact /> },
         { path: 'faqs', element: <Faqs /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }
+// ______________________________Pages_________________________________
 
 // AUTHENTICATION
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
@@ -187,9 +194,17 @@ const VerifyCode = Loadable(lazy(() => import('../pages/auth/VerifyCode')));
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
 
 
-
+// __________________________dashboard___________________
 // BioLink
 const BioLinkPage = Loadable(lazy(() => import('../pages/dashboard/BioLinkPage')));
+// _______short link page _____________
+// const ShortedLink = Loadable(lazy(() => import('../pages/dashboard/ShortedLinkPage')));
+// __________file link page___________
+const FileLink = Loadable(lazy(() => import('../pages/dashboard/FileLinkPage')));
+// _______vcard link page ____________
+// const VCardLink = Loadable(lazy(() => import('../pages/dashboard/VcardLinkPage')));
+
+
 
 
 // APP

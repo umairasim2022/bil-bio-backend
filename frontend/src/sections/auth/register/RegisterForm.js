@@ -1,47 +1,50 @@
+
 import * as Yup from 'yup';
-import { useState } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
-import axios from "axios";
-import { useNavigate  } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+
 
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Alert, Checkbox, Box, Typography } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Alert, Typography, Checkbox } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
+import { useSelector, useDispatch } from 'react-redux'
 import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
 import Iconify from '../../../components/Iconify';
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
-import  {RHFUploadAvatar}  from '../../../components/hook-form/RHFUpload'
+import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
+import { registerUser, resetUser } from '../../../redux/slices/auth/authSlice'
+import LoadingScreen from '../../../components/LoadingScreen';
+
+
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
   const { register } = useAuth();
-  const navigate = useNavigate();
+
   const isMountedRef = useIsMountedRef();
+
   const [showPassword, setShowPassword] = useState(false);
-  const handleImageUpload = e => {
-    const [file] = e.target.files;
-    if (file) {
-      console.log(file);
-    }
-  };
+
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name required'),
-    lastName: Yup.string().required('Last name required'),
+    name: Yup.string().required(' name required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     password: '',
+    tc: false
   };
 
   const methods = useForm({
@@ -57,67 +60,85 @@ export default function RegisterForm() {
   } = methods;
 
   const onSubmit = async (data) => {
-    console.log('dataa@' , data)
-    try {
-      await register(data.email, data.password, data.firstName, data.lastName);
-    } catch (error) {
-      console.error('registererror' , error.message);
-      reset();
-      if (isMountedRef.current) {
-        setError('afterSubmit', { ...error, message: error.message });
+    console.log('@datatareg', data)
+    const userData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      tc: data.tc
+
+    }
+    // try {
+    await dispatch(registerUser(userData))
+    // } catch (error) {
+    //   console.error(error);
+    //   reset();
+    //   if (isMountedRef.current) {
+    //     setError('afterSubmit', { ...error, message: error.message });
+    //   }
+    // }
+  };
+  // / handleError , success and routing for register page 
+
+  const { isLoading, isError, isSuccess , user } = useSelector(state => state.user)
+  console.log('iserror', isError, isSuccess)
+
+  const { status, message } = useSelector(state => state?.user?.user)
+  console.log('regstatus', status)
+
+
+
+  // handling status of the register user  on the basis of api status
+  useEffect(() => {
+    // when req rejected ,  here error is true , status is always  neither failed nor success  but undefined 
+    if (isError) {
+        toast.error(message)
+        navigate('/auth/register')
+
+    }
+    // when reg fullfilled  , it maybe status success or failed  , 
+    // like status is success for user newly registered and status failed  for incomplete failed or already registere user
+    if (isSuccess || user ) {
+      if (status === 'success')
+      {
+        toast.success(message, {
+          toastId: 'success1',
+          
+        })   // message is api response  with either api response failed or success 
+         navigate('/dashboard')
+        
       }
     }
-  };
+      if (isSuccess) {
+        if (status === 'failed')
+        toast.error(message, {
+          toastId: 'error1',
+          
+        })   // message is api response  with either api response failed or success
+        navigate('/auth/register')
 
- 
-  const [password, setPassword] = useState('');
-  const [tc, setTc] = useState('');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [msg, setMsg] = useState('');
-
-  const handleChange = (e) => { 
-   // console.log(e.target.checked);
-    setTc(e.target.checked); 
-    
-  }; 
-
-    
-    const Register = async (e) => {
-        e.preventDefault();
-        console.log(tc);
-        try {
-          await axios.post('/api/user/register', {
-            name,
-            email,
-            password,
-            tc
-        });
-       
-        } catch (error) {
-          if (error.response) {
-            setMsg(error.response.data.msg);
-        }
-        }
     }
+    
+      console.log('myvalues#', isError, isSuccess)
+      dispatch(resetUser())
 
+  }, [isError, isSuccess, status])
+  
+  // _________________loader a scrolbar moving________________
+  if (isLoading) {
+    return <LoadingScreen />
+  }
   return (
-    <FormProvider methods={methods} onSubmit={Register} sx={{ padding: 10 }}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        <RHFUploadAvatar name='profilePic' onChange={handleImageUpload} label="Upload Profile Picture"/>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="name" label="Name" value={name} onChange={(e) => setName(e.target.value)} />
-          {/* <RHFTextField name="lastName" label="Last name" /> */}
+          <RHFTextField name="name" label="name" />
         </Stack>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-        <RHFTextField name="email" label="Email address" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </Stack>
+        <RHFTextField name="email" label="Email address" />
         <RHFTextField
           name="password"
           label="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -129,22 +150,16 @@ export default function RegisterForm() {
             ),
           }}
         />
-        {/* <ReCAPTCHA sitekey="Your client site key" /> */}
 
-        <Stack direction="row" diplay="flex"  alignItems="flex-start">
-          <Checkbox size="small" name="tc"  onChange={(e) => handleChange(e)}  />
+        <Stack direction="row" diplay="flex" alignItems="flex-start">
+          <RHFCheckbox name='tc' />
+
           <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
             I confirm that I have read and understood the Terms and Conditions and Privacy Policy of the site.
           </Typography>
         </Stack>
-        <LoadingButton
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-          loading={isSubmitting}
-          sx={{ boxShadow: 'none' }}
-        >
+
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
           Register
         </LoadingButton>
       </Stack>

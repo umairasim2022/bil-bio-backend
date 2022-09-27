@@ -1,12 +1,29 @@
 import UserModel from '../models/User.js'
 import DashboardModel from '../models/Dashboard.js'
 import OptionModel from '../models/Option.js'
+import LinkModel from '../models/Link.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import transporter from '../config/emailConfig.js'
 
 
-class AuthController {
+class DashboardController {
+
+    static createLink = async (req, res, next) => {
+        const { tag, link } = req.body
+        if (tag && link ) {
+            const doc = new LinkModel({
+                tag: tag,
+                link: link,
+              })
+              await doc.save()
+              res.status(200).send({ "status": "success", "message": "Link Created Successfully." })
+        }
+        else {
+            res.send({ "status": "failed", "message": "All fields are required" })
+        }
+        console.log(tag);
+    }
   static updateCustomizeDashboard = async (req, res, next) => {
     console.log(req.params.optionid);
     const { coloum_name, coloum_type, coloum_value } = req.body
@@ -325,4 +342,4 @@ class AuthController {
   }
 }
 
-export default AuthController
+export default DashboardController
