@@ -39,6 +39,9 @@ router.get('/customize_dashboard_value/:userid', DashboardController.getDashboar
 router.post('/customize_dashboard/:userid', DashboardController.customizeDashboard)
 router.put('/update_customize_dashboard/:optionid', DashboardController.updateCustomizeDashboard)
 router.post('/customize_link/:id/:token', DashboardController.createLink)
+router.get('/custom_link/:id/:token', DashboardController.getLink)
+router.get('/getLinkWithTag/:id/:token', DashboardController.getLinkWithTag)
+
 router.get('/logout', AuthController.logout);
 router.get('/', AuthController.home);
 export default router
