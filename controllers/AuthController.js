@@ -7,78 +7,6 @@ import transporter from '../config/emailConfig.js'
 
 
 class AuthController {
-  static updateCustomizeDashboard = async (req, res, next) => {
-    console.log(req.params.optionid);
-    const { coloum_name, coloum_type, coloum_value } = req.body
-    if (coloum_name && coloum_type && coloum_value && req.params.optionid) {
-      const user = await OptionModel.findByIdAndUpdate(req.params.optionid, {
-        coloum_name: coloum_name,
-        coloum_type: coloum_type,
-        coloum_value: coloum_value,
-      }, { new: true });
-      res.status(200).send({ "status": "success", "message": "Dashboard Data Updated." })
-    }
-    else {
-      res.send({ "status": "failed", "message": "All fields are required" })
-    }
-
-  };
-  static getDashboardValueByColoumName = async (req, res, next) => {
-    const { coloum_name } = req.body
-    if (coloum_name && req.params.userid) {
-      const options = await OptionModel.find({
-        $and: [
-          { coloum_name: 'social_links' },
-          { _id: '63299f4bb4743f0223bb3034' },
-        ]
-      }
-
-      );
-      res.status(200).send({ "status": "success", "message": "Dashboard Data Updated.", "response": options })
-    }
-    else {
-      res.send({ "status": "failed", "message": "All fields are required" })
-    }
-
-  };
-  static getCustomizeDashboard = async (req, res, next) => {
-    const { coloum_name, coloum_type } = req.body
-    if (coloum_name && coloum_type && req.params.userid) {
-      const options = await OptionModel.find({
-        $and: [
-          { coloum_name: 'social_links' },
-          { coloum_type: 'fb' },
-          { _id: '63299f4bb4743f0223bb3034' },
-        ]
-      }
-
-      );
-      res.status(200).send({ "status": "success", "message": "Dashboard Data Updated.", "response": options })
-    }
-    else {
-      res.send({ "status": "failed", "message": "All fields are required" })
-    }
-
-  };
-  static customizeDashboard = async (req, res, next) => {
-    const { coloum_name, coloum_type, coloum_value } = req.body
-    if (coloum_name && coloum_value && req.params.userid) {
-      const user = await UserModel.findOne({ _id: req.params.userid })
-      const customize = new OptionModel({
-        coloum_name: coloum_name,
-        coloum_type: coloum_type,
-        coloum_value: coloum_value,
-        user: user._id
-      })
-      await customize.save()
-      res.status(200).send({ "status": "success", "message": "Dashboard Data Updated." })
-    }
-    else {
-      res.send({ "status": "failed", "message": "All fields are required" })
-    }
-
-  };
-
   static authCheck = async (req, res, next) => {
     if (req.session.loggedin) {
       return next();
@@ -197,9 +125,6 @@ class AuthController {
   static loggedUser = async (req, res) => {
     res.send({ "user": req.user })
   }
-  static dashboard = async (req, res) => {
-    res.send({ "status": "sucess", "message": "User is login" })
-  }
   static home = async (req, res) => {
     res.send({ "status": " sucess", "message": "User redirect to main route." })
   }
@@ -256,11 +181,10 @@ class AuthController {
       res.send({ "status": "failed", "message": "Verification Failed." })
     }
   }
+
   static getEmail = async (req, res) => {
     const { id, token } = req.params
-
     const user = await UserModel.findById(id)
-
     console.log(token)
     const new_secret = process.env.JWT_SECRET_KEY
     if (user) {

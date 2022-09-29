@@ -6,6 +6,7 @@ const optionSchema = new mongoose.Schema({
   coloum_type: { type: String, required: true, trim: true },
   coloum_value: { type: String, required: true, trim: true },
   user : { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+  link_id : { type: mongoose.Schema.Types.ObjectId, ref: 'Link' },
   
 })
 
